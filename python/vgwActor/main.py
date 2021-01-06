@@ -2,6 +2,7 @@
 
 import argparse
 from actorcore.Actor import Actor
+from vgwActor.agcam import Agcam
 from vgwActor.vgw import Vgw
 
 
@@ -36,11 +37,12 @@ class VgwActor(Actor):
 
             self._everConnected = True
 
+            self.agcam = Agcam(actor=self, logger=self.logger)
             self.vgw = Vgw(actor=self, logger=self.logger)
 
-            _models = ('ag', 'agcam',)
+            _models = ('agcam',)
             self.addModels(_models)
-            self.models['agcam'].keyVarDict['filepath'].addCallback(self.vgw.receiveStatusKeys, callNow=False)
+            self.models['agcam'].keyVarDict['filepath'].addCallback(self.agcam.receiveStatusKeys, callNow=False)
 
     # override
     def connectionLost(self, reason):
