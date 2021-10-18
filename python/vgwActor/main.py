@@ -44,8 +44,7 @@ class VgwActor(Actor):
 
             _models = ('ag', 'agcc',)
             self.addModels(_models)
-            for key in ('guideObjects', 'detectedObjects', 'identifiedObjects',):
-                self.models['ag'].keyVarDict[key].addCallback(self.ag.receiveStatusKeys, callNow=False)
+            self.models['ag'].keyVarDict['data'].addCallback(self.ag.receiveStatusKeys, callNow=False)
             #self.models['agcc'].keyVarDict['agc_fitsfile'].addCallback(self.agcc.receiveStatusKeys, callNow=False)
 
     # override

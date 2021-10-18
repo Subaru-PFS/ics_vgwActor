@@ -1,3 +1,6 @@
+from vgwActor.export import export
+
+
 class Vgw:
 
     def __init__(self, actor=None, logger=None):
@@ -10,7 +13,7 @@ class Vgw:
         #cmd.inform('{}={}'.format(key, value))
         pass
 
-    def sendImage(self, filepath):
+    def sendImage(self, filepath, **kwargs):
 
         self.logger.info('sendImage: {}'.format(filepath))
-        #pass
+        export(filepath, '/dev/shm/vgw.fits', **kwargs)
