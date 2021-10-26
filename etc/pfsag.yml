@@ -1,0 +1,8 @@
+comment: "
+  Datasink configuration for 'pfsag' key.
+  "
+realm: other
+realm_host: g2sim1.subaru.nao.ac.jp
+realm_username: 'datasink'
+realm_password: 'zippyds2'
+key: 'pfsag-20211020-132829-xoYX-&eOo-lrrp-52Jj-yOgR-xBFj'

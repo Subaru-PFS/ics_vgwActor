@@ -1,0 +1,6 @@
+[submodule "python/g2cam"]
+	path = python/g2cam
+	url = https://github.com/naojsoft/g2cam
+[submodule "python/datasink"]
+	path = python/datasink
+	url = https://github.com/naojsoft/datasink
