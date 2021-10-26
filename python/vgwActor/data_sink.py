@@ -54,7 +54,7 @@ if __name__ == '__main__':
 
     import traceback
 
-    data_sink = DataSink(confpath=args.conf_path, hostname='133.40.147.5', username='pfs', topic='pfs_ag')
+    data_sink = DataSink(confpath=args.conf_path, hostname='133.40.147.5', username='pfs-data', topic='pfs_ag')
     while True:
         with data_sink.connect() as conn:
             try:

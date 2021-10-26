@@ -9,7 +9,7 @@ class Vgw:
 
         self.actor = actor
         self.logger = logger
-        self.data_sink = DataSink(confpath=os.path.expandvars('$ICS_VGWACTOR_DIR/etc/pfsag.yml'), hostname='133.40.147.5', username='pfs', topic='pfs_ag')
+        self.data_sink = DataSink(confpath=os.path.expandvars('$ICS_VGWACTOR_DIR/etc/pfsag.yml'), hostname='133.40.147.5', username='pfs-data', topic='pfs_ag')
 
     def sendStatusKeys(self, cmd):
 
@@ -19,7 +19,7 @@ class Vgw:
     def sendImage(self, filepath, **kwargs):
 
         self.logger.info('sendImage: {}'.format(filepath))
-        datapath = os.path.expandvars('$ICS_MHS_DATA_ROOT/vgw/pfsag.fits')
+        datapath = os.path.join(os.path.expandvars('$ICS_MHS_DATA_ROOT/vgw'), os.path.basename(filepath))
         export(filepath, datapath, **kwargs)
         with self.data_sink.connect() as conn:
             try:
