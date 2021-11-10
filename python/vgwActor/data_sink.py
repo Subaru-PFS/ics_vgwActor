@@ -1,6 +1,5 @@
 from contextlib import contextmanager
 import logging
-import os
 import time
 from datasink.client import JobSource
 
@@ -26,7 +25,7 @@ class DataSink:
         finally:
             self.job_source.shutdown()
 
-    def submit(self, datapath):
+    def submit(self, datapath, datasize):
 
         job = dict(
             action='transfer',
@@ -37,7 +36,7 @@ class DataSink:
             username=self.username,
             password=self.password,
             topic=self.topic,
-            filesize=os.stat(datapath).st_size
+            filesize=datasize
         )
         self.job_source.submit(job)
 
@@ -52,13 +51,14 @@ if __name__ == '__main__':
     parser.add_argument('--cadence', type=float, default=None, help='cadence (s)')
     args, _ = parser.parse_known_args()
 
+    import os
     import traceback
 
     data_sink = DataSink(confpath=args.conf_path, hostname='133.40.147.5', username='pfs-data', topic='pfs_ag')
     while True:
         with data_sink.connect() as conn:
             try:
-                conn.submit(args.data_path)
+                conn.submit(args.data_path, os.path.getsize(args.data_path))
             except:
                 traceback.print_exc()
         if args.cadence is None:
