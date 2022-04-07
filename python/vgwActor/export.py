@@ -27,19 +27,23 @@ def export(input_file=None, output_file=None, center=None, guide_objects=None, d
                 header['INST-PA'] = pa
             ofits.write(data, header=header)
             # extensions (images)
-            for icam, hdu in enumerate(ifits[1:-1]):
+            for hdu in ifits[1:]:
                 data = hdu.read()
                 header = hdu.read_header()
-                if center is not None:
-                    h = wcs[icam].to_header(relax=True)
-                    for k, nk in (('PC1_1', 'CD1_1'), ('PC1_2', 'CD1_2'), ('PC2_1', 'CD2_1'), ('PC2_2', 'CD2_2')):
-                        if k in h:
-                            header[nk] = h[k]
-                    for k in h:
-                        if k.startswith(('CRPIX', 'CRVAL', 'CTYPE', 'CUNIT', 'A_', 'AP_', 'B_', 'BP_')):
-                            header[k] = h[k]
                 extname = header['EXTNAME']
-                ofits.write(data, compress='rice', header=header, extname=extname)
+                if extname in ('CAM1', 'CAM2', 'CAM3', 'CAM4', 'CAM5', 'CAM6'):
+                    icam = int(extname[3:]) - 1
+                    if center is not None:
+                        h = wcs[icam].to_header(relax=True)
+                        for k, nk in (('PC1_1', 'CD1_1'), ('PC1_2', 'CD1_2'), ('PC2_1', 'CD2_1'), ('PC2_2', 'CD2_2')):
+                            if k in h:
+                                header[nk] = h[k]
+                        for k in h:
+                            if k.startswith(('CRPIX', 'CRVAL', 'CTYPE', 'CUNIT', 'A_', 'AP_', 'B_', 'BP_')):
+                                header[k] = h[k]
+                    ofits.write(data, compress='rice', header=header, extname=extname)
+                else:
+                    ofits.write(data, header=header, extname=extname)
             # extensions (binary tables)
             if guide_objects is not None:
                 ofits.write(guide_objects, units=['', 'degree', 'degree', ''], extname='guide_objects')
