@@ -18,7 +18,7 @@ class Agcc:
 
         if all((key.name == 'agc_fitsfile', key.isCurrent, key.isGenuine)):
             filepath = str(key.valueList[0])
-            self.actor.vgw.sendImage(filepath)
+            self.actor.vgw.sendImage(filepath, prefix='_')
 
     def _getValues(self, key):
 

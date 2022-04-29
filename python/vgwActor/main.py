@@ -45,7 +45,7 @@ class VgwActor(Actor):
             _models = ('ag', 'agcc',)
             self.addModels(_models)
             self.models['ag'].keyVarDict['data'].addCallback(self.ag.receiveStatusKeys, callNow=False)
-            #self.models['agcc'].keyVarDict['agc_fitsfile'].addCallback(self.agcc.receiveStatusKeys, callNow=False)
+            self.models['agcc'].keyVarDict['agc_fitsfile'].addCallback(self.agcc.receiveStatusKeys, callNow=False)
 
     # override
     def connectionLost(self, reason):

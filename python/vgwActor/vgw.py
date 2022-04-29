@@ -22,12 +22,12 @@ class Vgw:
         #cmd.inform('{}={}'.format(key, value))
         pass
 
-    def sendImage(self, filepath, **kwargs):
+    def sendImage(self, filepath, prefix='', **kwargs):
 
-        self.logger.info('sendImage: {}'.format(filepath))
+        self.logger.info('sendImage: filepath={},prefix={}'.format(filepath, prefix))
         filename = os.path.basename(filepath)
-        rdatapath = os.path.join(self.rdatadir, filename)
-        datapath = os.path.join(self.datadir, filename)
+        rdatapath = os.path.join(self.rdatadir, prefix + filename)
+        datapath = os.path.join(self.datadir, prefix + filename)
         export(filepath, datapath, **kwargs)
         with self.data_sink.connect() as conn:
             try:
