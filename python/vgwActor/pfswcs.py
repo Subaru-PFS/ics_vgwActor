@@ -2,7 +2,7 @@ import numpy
 from astropy import wcs
 
 
-def agcwcs_sip(ra, dec, pa):
+def agcwcs_sip(ra, dec, inst_pa):
 
     scale = 1.00  # unknown scale parameter
 
@@ -18,10 +18,10 @@ def agcwcs_sip(ra, dec, pa):
     tau = dx2 - 2 * dx7
     ups = 3 * sig ** 2 * dx7 / tau
 
-    _pa = numpy.deg2rad(-pa + numpy.array([0, 60, 120, 180, 240, 300]))
+    pa = numpy.deg2rad(-(inst_pa - 90.0) + numpy.array([0, 60, 120, 180, 240, 300]))
 
-    CD1_1 = numpy.rad2deg(-s * scale * t * numpy.sin(_pa))
-    CD1_2 = numpy.rad2deg(s * scale * t * numpy.cos(_pa))
+    CD1_1 = numpy.rad2deg(-s * scale * t * numpy.sin(pa))
+    CD1_2 = numpy.rad2deg(s * scale * t * numpy.cos(pa))
     CD2_1 = -CD1_2
     CD2_2 = CD1_1
 
