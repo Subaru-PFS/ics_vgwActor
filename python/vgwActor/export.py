@@ -29,6 +29,8 @@ def export(input_file=None, output_file=None, center=None, guide_objects=None, d
             # extensions (images)
             for hdu in ifits[1:]:
                 data = hdu.read()
+                if data is None:
+                    continue
                 header = hdu.read_header()
                 extname = header['EXTNAME']
                 if extname in ('CAM1', 'CAM2', 'CAM3', 'CAM4', 'CAM5', 'CAM6'):
