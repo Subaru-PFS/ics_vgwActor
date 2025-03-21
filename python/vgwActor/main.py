@@ -61,13 +61,11 @@ class VgwActor(Actor):
 def main():
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('--configFile', default=None)
     args = parser.parse_args()
 
     actor = VgwActor(
         'vgw',
         productName='vgwActor',
-        configFile=args.configFile
     )
     actor.run()
 
