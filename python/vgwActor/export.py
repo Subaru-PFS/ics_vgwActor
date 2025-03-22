@@ -48,7 +48,7 @@ def export(input_file=None, output_file=None, center=None, guide_objects=None, d
                     ofits.write(data, header=header, extname=extname)
             # extensions (binary tables)
             if guide_objects is not None:
-                ofits.write(guide_objects, units=['', '', 'degree', 'degree', 'degree', 'degree', '', '', '', '', 'pix', 'pix', '', ''], extname='guide_objects')
+                ofits.write(guide_objects, units=['', '', 'degree', 'degree', 'degree', 'degree', '', '', '', '', 'pix', 'pix', '', '', ''], extname='guide_objects')
             if detected_objects is not None:
                 ofits.write(detected_objects, units=['', '', '', 'pix', 'pix', '', '', '', 'pix', 'pix', '', '', '', 'mm', 'mm', '', ''], extname='detected_objects')
             if identified_objects is not None:
