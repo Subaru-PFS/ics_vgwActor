@@ -52,7 +52,13 @@ def export(input_file=None, output_file=None, center=None, guide_objects=None, d
             if detected_objects is not None:
                 ofits.write(detected_objects, units=['', '', '', 'pix', 'pix', '', '', '', 'pix', 'pix', '', '', ''], extname='detected_objects')
             if identified_objects is not None:
-                ofits.write(identified_objects, units=['', '', 'mm', 'mm', 'mm', 'mm', 'pix', 'pix'], extname='identified_objects')
+                # 'detected_object_id', 'guide_object_id',
+                # 'detected_object_x_mm', 'detected_object_y_mm',
+                # 'guide_object_x_mm', 'guide_object_y_mm',
+                # 'guide_object_x_pix', 'guide_object_y_pix',
+                # 'detected_object_x_pix', 'detected_object_y_pix',
+                # 'agc_camera_id', 'valid'
+                ofits.write(identified_objects, units=['', '', 'mm', 'mm', 'mm', 'mm', 'pix', 'pix', 'pix', 'pix', '', ''], extname='identified_objects')
 
 
 if __name__ == '__main__':
