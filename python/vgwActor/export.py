@@ -1,7 +1,8 @@
 import fitsio
-import pfswcs
 from astropy import units
 from astropy.coordinates import Angle
+
+from vgwActor.pfswcs import agcwcs_sip
 
 
 def export(
@@ -16,7 +17,8 @@ def export(
     if center is not None:
         ra, dec, pa = center
         # wcs (sip)
-        wcs = pfswcs.agcwcs_sip(ra, dec, pa)
+        wcs = agcwcs_sip(ra, dec, pa)
+
     with fitsio.FITS(input_file) as ifits, fitsio.FITS(output_file, "rw", clobber=True) as ofits:
         # primary
         hdu = ifits[0]
@@ -173,8 +175,10 @@ if __name__ == "__main__":
     print(f" done. Design ID: {args.design_id}")
 
     print("Fetching design information...", end="", flush=True)
-    sql = ("SELECT ra_center_designed, dec_center_designed, pa_designed "
-           "FROM pfs_design WHERE pfs_design_id = :design_id")
+    sql = (
+        "SELECT ra_center_designed, dec_center_designed, pa_designed "
+        "FROM pfs_design WHERE pfs_design_id = :design_id"
+    )
     ra, dec, pa = opdb.query_array(sql, params={"design_id": args.design_id})[0]
     print(f" done. RA: {ra}, Dec: {dec}, PA: {pa}")
 

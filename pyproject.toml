@@ -8,6 +8,7 @@ description = "ICS actor for the Subaru Gen2 VGW (Vision Guide Window)"
 authors = [
     { name = "Subaru PFS ICS Team" }
 ]
+readme = "README.md"
 license = { text = "PFS Collaboration" }
 requires-python = ">=3.12"
 keywords = ["astronomy", "spectrograph", "subaru", "pfs", "autoguider", "vgw"]

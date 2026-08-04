@@ -28,7 +28,10 @@ class Vgw:
         filename = os.path.basename(filepath)
         rdatapath = os.path.join(self.rdatadir, prefix + filename)
         datapath = os.path.join(self.datadir, prefix + filename)
+
+        # Save the file to disk.
         export(filepath, datapath, **kwargs)
+
         with self.data_sink.connect() as conn:
             try:
                 conn.submit(rdatapath, os.path.getsize(datapath))
