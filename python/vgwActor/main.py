@@ -5,8 +5,8 @@ from typing import ClassVar
 
 from actorcore.Actor import Actor
 
-from vgwActor.ag import Ag
-from vgwActor.agcc import Agcc
+from vgwActor.models.ag import Ag
+from vgwActor.models.agcc import Agcc
 from vgwActor.vgw import Vgw
 
 
