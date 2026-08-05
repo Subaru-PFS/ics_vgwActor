@@ -1,0 +1,144 @@
+[build-system]
+requires = ["setuptools >= 77.0.3", "wheel", "lsst-versions"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ics-vgw-actor"
+description = "ICS actor for the Subaru Gen2 VGW (Vision Guide Window)"
+authors = [
+    { name = "Subaru PFS ICS Team" }
+]
+readme = "README.md"
+license = { text = "PFS Collaboration" }
+requires-python = ">=3.12"
+keywords = ["astronomy", "spectrograph", "subaru", "pfs", "autoguider", "vgw"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Astronomy",
+]
+dependencies = [
+    "astropy",
+    "fitsio",
+    "numpy",
+    "pfs-instdata @ git+https://github.com/Subaru-PFS/pfs_instdata.git",
+    "pfs-tron-actorcore @ git+https://github.com/Subaru-PFS/tron_actorcore.git",
+    "pfs-utils @ git+https://github.com/Subaru-PFS/pfs_utils.git",
+    "ics-ag-actor @ git+https://github.com/Subaru-PFS/ics_agActor.git",
+]
+dynamic = ["version"]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-cov>=4.1.0",
+    "ruff>=0.3.0",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/Subaru-PFS/ics_vgwActor"
+"Bug Tracker" = "https://github.com/Subaru-PFS/ics_vgwActor/issues"
+
+[tool.setuptools.packages.find]
+where = ["python"]
+include = ["vgwActor", "vgwActor.*"]
+
+# ==============================================================================
+# PYTEST
+# ==============================================================================
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["tests"]
+pythonpath = ["python"]
+addopts = ["-ra", "--strict-markers", "--strict-config", "--import-mode=importlib"]
+# The vendored NAOJ submodules ship their own tests; never collect them.
+norecursedirs = ["python/datasink", "python/g2cam", ".git", ".*_cache", "build", "dist"]
+filterwarnings = [
+    "ignore::DeprecationWarning",
+]
+
+# ==============================================================================
+# COVERAGE
+# ==============================================================================
+[tool.coverage.run]
+source = ["vgwActor"]
+branch = true
+omit = [
+    "python/vgwActor/version.py",
+    "tests/*",
+]
+
+[tool.coverage.report]
+show_missing = true
+exclude_also = [
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+    "raise NotImplementedError",
+]
+
+# ==============================================================================
+# DYNAMIC VERSION
+# ==============================================================================
+[tool.lsst_versions]
+write_to = "python/vgwActor/version.py"
+
+# ==============================================================================
+# RUFF LINTER & FORMATTER CONFIGURATION
+# ==============================================================================
+[tool.ruff]
+target-version = "py312"
+line-length = 110
+src = ["python"]
+# The vendored NAOJ submodules are not ours to lint.
+extend-exclude = ["python/datasink", "python/g2cam"]
+
+[tool.ruff.lint]
+# Selected rule sets (https://docs.astral.sh/ruff/rules/)
+select = [
+    "E", # pycodestyle errors
+    "W", # pycodestyle warnings
+    "F", # Pyflakes (catches unused imports, undefined variables)
+    "I", # isort (automatically sorts and groups your imports)
+    "N", # pep8-naming (enforces standard Class/variable naming)
+    "D", # pydocstyle (docstring compliance)
+    "UP", # pyupgrade (forces clean, modern Python 3.12 syntax upgrades)
+    "B", # flake8-bugbear (flags common design flaws and sneaky bugs)
+    "C4", # flake8-comprehensions (optimizes list/dict allocations)
+    "SIM", # flake8-simplify (suggests structural code simplifications)
+    "RUF", # Ruff-specific quality checks
+]
+
+# Ignores the camelCase/capitalization naming conventions used throughout the actors,
+# plus the docstring rules we do not enforce.
+ignore = [
+    "D100", # Missing docstring in public module
+    "D101",
+    "D102",
+    "D103",
+    "D104", # Missing docstring in public package
+    "D105",
+    "D107",
+    "EM101",
+    "TRY003",
+    "N802",
+    "N803",
+    "N806",
+    "N815",
+    "N816",
+    "N999",
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
+
+[tool.ruff.lint.per-file-ignores]
+# Relax strict rules and docstring requirements inside unit tests
+"tests/**/*.py" = ["D101", "D102", "D103", "S101"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["pfs", "ics", "agActor", "vgwActor"]
+
+[tool.pydocstyle]
+convention = "numpy"
